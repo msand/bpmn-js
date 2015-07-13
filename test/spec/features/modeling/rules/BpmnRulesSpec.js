@@ -129,6 +129,56 @@ describe('features/modeling/rules - BpmnRules', function() {
     }));
 
 
+    it('connect BoundaryEvent -> Task', inject(function() {
+
+      expectCanConnect('BoundaryEvent', 'Task', {
+        sequenceFlow: true,
+        messageFlow: false,
+        association: true
+      });
+    }));
+
+
+    it('connect BoundaryEvent_1 -> SubProcess', inject(function() {
+
+      expectCanConnect('BoundaryEvent', 'SubProcess', {
+        sequenceFlow: true,
+        messageFlow: false,
+        association: true
+      });
+    }));
+
+
+    it('connect BoundaryEvent -> BoundaryEvent_1', inject(function() {
+
+      expectCanConnect('BoundaryEvent', 'BoundaryEvent_1', {
+        sequenceFlow: false,
+        messageFlow: false,
+        association: true
+      });
+    }));
+
+
+    it('connect BoundaryEvent -> StartEvent_None', inject(function() {
+
+      expectCanConnect('BoundaryEvent', 'BoundaryEvent_1', {
+        sequenceFlow: false,
+        messageFlow: false,
+        association: true
+      });
+    }));
+
+
+    it('connect StartEvent_None -> BoundaryEvent', inject(function() {
+
+      expectCanConnect('StartEvent_None', 'BoundaryEvent', {
+        sequenceFlow: false,
+        messageFlow: false,
+        association: true
+      });
+    }));
+
+
     it('drop TextAnnotation -> Process', inject(function() {
 
       expectCanDrop('TextAnnotation', 'Process', true);
@@ -227,6 +277,16 @@ describe('features/modeling/rules - BpmnRules', function() {
     it('connect EventBasedGateway -> Task_None', inject(function() {
 
       expectCanConnect('EventBasedGateway', 'Task_None', {
+        sequenceFlow: false,
+        messageFlow: false,
+        association: true
+      });
+    }));
+
+
+    it('connect EventBasedGateway -> ParallelGateway', inject(function() {
+
+      expectCanConnect('EventBasedGateway', 'ParallelGateway', {
         sequenceFlow: false,
         messageFlow: false,
         association: true
@@ -436,11 +496,11 @@ describe('features/modeling/rules - BpmnRules', function() {
     }));
 
 
-    it('connect StartEvent_None -> TextAnnotation_Global', inject(function() {
+    it('connect BoundaryEvent -> Task_in_OtherParticipant', inject(function() {
 
-      expectCanConnect('StartEvent_None', 'TextAnnotation_Global', {
+      expectCanConnect('BoundaryEvent', 'Task_in_OtherParticipant', {
         sequenceFlow: false,
-        messageFlow: false,
+        messageFlow: true,
         association: true
       });
     }));
