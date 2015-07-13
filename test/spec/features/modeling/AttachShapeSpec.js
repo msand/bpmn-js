@@ -21,6 +21,7 @@ describe('features/modeling - attach shape', function() {
 
   beforeEach(bootstrapModeler(diagramXML, { modules: testModules }));
 
+
   var subProcessElement, subProcess, task, boundaryEventElement, boundaryEvent;
 
   beforeEach(inject(function(elementFactory, elementRegistry, canvas, modeling) {
@@ -43,14 +44,16 @@ describe('features/modeling - attach shape', function() {
     canvas.addShape(boundaryEventElement, subProcessElement);
   }));
 
+
   describe('shape', function() {
 
     it('should reattach', inject(function(modeling, elementRegistry) {
+
       // when
       modeling.attachShape(boundaryEventElement, subProcessElement, true);
 
       // then
-      expect(boundaryEvent.attachedToRef).toEqual(subProcess.id);
+      expect(boundaryEvent.attachedToRef).toEqual(subProcess);
 
       expect(boundaryEvent.cancelActivity).toEqual(true);
 
@@ -60,6 +63,7 @@ describe('features/modeling - attach shape', function() {
 
 
     it('should undo', inject(function(elementRegistry, commandStack, modeling) {
+
       // given
       modeling.attachShape(boundaryEventElement, subProcessElement, true);
 
@@ -67,7 +71,7 @@ describe('features/modeling - attach shape', function() {
       commandStack.undo();
 
       // then
-      expect(boundaryEvent.attachedToRef).toEqual(task.businessObject.id);
+      expect(boundaryEvent.attachedToRef).toEqual(task.businessObject);
       expect(boundaryEvent.cancelActivity).toEqual(true);
 
       expect(subProcessElement.attachers).not.toContain(boundaryEventElement);
@@ -76,6 +80,7 @@ describe('features/modeling - attach shape', function() {
 
 
     it('should redo', inject(function(elementRegistry, commandStack, modeling) {
+
       // given
       modeling.attachShape(boundaryEventElement, subProcessElement, true);
 
@@ -85,7 +90,7 @@ describe('features/modeling - attach shape', function() {
       commandStack.redo();
 
       // then
-      expect(boundaryEvent.attachedToRef).toEqual(subProcess.id);
+      expect(boundaryEvent.attachedToRef).toEqual(subProcess);
       expect(boundaryEvent.cancelActivity).toEqual(true);
 
       expect(subProcessElement.attachers).toContain(boundaryEventElement);
@@ -93,6 +98,7 @@ describe('features/modeling - attach shape', function() {
     }));
 
   });
+
 
   describe('rules', function() {
 

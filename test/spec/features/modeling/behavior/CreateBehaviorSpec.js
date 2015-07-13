@@ -260,12 +260,13 @@ describe('features/modeling - create participant', function() {
 
       // then
       expect(boundaryEvent.type).toEqual('bpmn:BoundaryEvent');
-      expect(boundaryEvent.businessObject.attachedToRef).toMatch('Task');
+      expect(boundaryEvent.businessObject.attachedToRef).toBe(task.businessObject);
     }));
 
 
     it('should morph an IntermediateThrowEvent to a BoundaryEvent -> Create',
       inject(function(elementFactory, create, canvas, dragging, modeling, elementRegistry) {
+
       // given
       var rootShape = canvas.getRootElement(),
           task = elementFactory.createShape({ type: 'bpmn:Task' }),
@@ -286,7 +287,7 @@ describe('features/modeling - create participant', function() {
 
       // then
       expect(boundaryEvent.type).toEqual('bpmn:BoundaryEvent');
-      expect(boundaryEvent.businessObject.attachedToRef).toMatch('Task');
+      expect(boundaryEvent.businessObject.attachedToRef).toBe(task.businessObject);
     }));
 
 
