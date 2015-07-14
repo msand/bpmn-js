@@ -39,8 +39,6 @@ describe('features/modeling - attach shape', function() {
 
     boundaryEvent = boundaryEventElement.businessObject;
 
-    task.attachers = [ boundaryEventElement ];
-
     canvas.addShape(boundaryEventElement, subProcessElement);
   }));
 
