@@ -63,7 +63,7 @@ describe('import - Importer', function() {
       runImport(diagram, xml, function(err, warnings) {
 
         // then
-        expect(eventCount).toEqual(9);
+        expect(eventCount).toEqual(10);
 
         done(err);
       });
@@ -102,6 +102,7 @@ describe('import - Importer', function() {
            { type: 'add', semantic: 'Task_1', di: '_BPMNShape_Task_2', diagramElement: 'Task_1' },
            { type: 'add', semantic: 'EndEvent_1', di: '_BPMNShape_EndEvent_2', diagramElement: 'EndEvent_1' },
            { type: 'add', semantic: 'StartEvent_2', di: '_BPMNShape_StartEvent_11', diagramElement: 'StartEvent_2' },
+           { type: 'add', semantic: 'BoundaryEvent_1', di: 'BoundaryEvent_1_di', diagramElement: 'BoundaryEvent_1' },
            { type: 'add', semantic: 'SequenceFlow_1', di: 'BPMNEdge_SequenceFlow_1', diagramElement: 'SequenceFlow_1' },
            { type: 'add', semantic: 'SequenceFlow_2', di: 'BPMNEdge_SequenceFlow_2', diagramElement: 'SequenceFlow_2' },
            { type: 'add', semantic: 'SequenceFlow_3', di: 'BPMNEdge_SequenceFlow_3', diagramElement: 'SequenceFlow_3' }
@@ -211,6 +212,20 @@ describe('import - Importer', function() {
       expect(label.id).toBe(startEventShape.id + '_label');
 
       expect(label.labelTarget).toBe(startEventShape);
+    });
+
+
+    it('should wire host attacher relationship', function() {
+
+      // when
+      var boundaryEventShape = elements[6];
+      var subProcessShape = elements[1];
+
+      // then
+      expect(boundaryEventShape.host).toBe(subProcessShape);
+
+      expect(subProcessShape.attachers).toContain(boundaryEventShape);
+      expect(boundaryEventShape.businessObject.attachedToRef).toBe(subProcessShape.businessObject);
     });
 
 
